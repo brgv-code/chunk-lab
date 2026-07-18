@@ -1,0 +1,37 @@
+{
+  "document": "data/sample_doc.md",
+  "queries": [
+    {
+      "query": "How does semantic chunking decide where to split?",
+      "answer": "embedding similarity"
+    },
+    {
+      "query": "What is the failure mode where models ignore material in the middle of a long context?",
+      "answer": "lost in the middle"
+    },
+    {
+      "query": "Which chunker keeps code structure like functions and classes intact?",
+      "answer": "respects function and class boundaries"
+    },
+    {
+      "query": "What text does the hierarchical strategy run retrieval on?",
+      "answer": "children"
+    },
+    {
+      "query": "Which embedding model does Chunk Lab use?",
+      "answer": "all-MiniLM-L6-v2"
+    },
+    {
+      "query": "Where does the eval harness store its vectors?",
+      "answer": "Chroma"
+    },
+    {
+      "query": "How is a retrieval hit defined when scoring?",
+      "answer": "substring match"
+    },
+    {
+      "query": "What is MRR the mean of?",
+      "answer": "reciprocal rank"
+    }
+  ]
+}
