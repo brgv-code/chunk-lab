@@ -16,7 +16,11 @@ import pandas as pd
 import streamlit as st
 
 from chunklab.registry import available_strategies, run_strategy
-from chunklab.viz import render_chunks_html, render_retrievals_html, metrics_row
+# Stage 1 symbols only at module scope. Stage 2 symbols (render_retrievals_html,
+# eval, chromadb) are imported lazily inside the Evaluate tab, so the app always
+# loads even if a Stage 2 dependency is missing or a hosted runtime serves a
+# stale module cache.
+from chunklab.viz import render_chunks_html, metrics_row
 
 ROOT = Path(__file__).parent
 SAMPLE_DOC = ROOT / "data" / "sample_doc.md"
@@ -146,6 +150,7 @@ def render_eval():
 
     # --- eval source ---
     from chunklab.eval import load_eval_spec
+    from chunklab.viz import render_retrievals_html   # lazy: Stage 2 only
     source = st.radio("Eval set", ["Sample", "Upload JSON"], horizontal=True)
     try:
         if source == "Upload JSON":
@@ -191,9 +196,14 @@ def render_eval():
         st.info("Choose k and strategies, then Run eval.")
         return
 
-    with st.spinner("Chunking, embedding, indexing, and scoring each strategy…"):
-        results = _run_eval(doc_text, json.dumps(queries), tuple(picked),
-                            chunk_size, overlap, k)
+    try:
+        with st.spinner("Chunking, embedding, indexing, and scoring each strategy…"):
+            results = _run_eval(doc_text, json.dumps(queries), tuple(picked),
+                                chunk_size, overlap, k)
+    except Exception as e:  # noqa: BLE001 - surface, don't crash the tab
+        st.error(f"Eval could not run: {e}. On a fresh hosted deploy the vector "
+                 f"store may still be installing; wait a moment and try again.")
+        return
 
     ok = [e for e in results if e.ok]
     failed = [e for e in results if not e.ok]
