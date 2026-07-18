@@ -1,0 +1,27 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv
+
+# Local tooling / editor / OS
+.agents/
+.claude/
+.DS_Store
+
+# Vector store persistence (created at runtime)
+.chroma/
+chroma/
+
+# Blog drafts live in the knowledge-base repo, not here
+blog/
+
+# npx skills manifest (README documents the install command)
+skills-lock.json
