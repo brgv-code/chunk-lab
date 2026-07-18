@@ -7,3 +7,4 @@ sentence-transformers
 chromadb
 pandas
 # streamlit is provided by the platform (see README sdk_version).
+# rebuild nudge: force a clean container (avoids hot-reload stale-module error)
