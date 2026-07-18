@@ -1,8 +1,9 @@
-# Streamlit Community Cloud deploy deps (Stage 1 visualizer).
+# Streamlit Community Cloud deploy deps (Stage 1 visualizer + Stage 2 eval).
 # CPU-only torch so the build is a ~190MB wheel, not the 2.5GB CUDA one.
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch
 chonkie[semantic,code,st,tiktoken]
 sentence-transformers
+chromadb
 pandas
-# streamlit is provided by the platform. chromadb is omitted: Stage 1 does not use it.
+# streamlit is provided by the platform (see README sdk_version).
