@@ -10,6 +10,7 @@ Live current-state for Chunk Lab. Session archive lives in `knowledge-base/proje
 - Stage 1 visualizer: `viz.py` + `app.py` tab 1. Verified live in a browser; overlap responds; LLM disabled cleanly with Ollama off.
 - Tests: `uv run pytest` → 13 passing (`tests/test_registry.py`).
 - Blog Posts 1 and 2 drafted, validated, committed to the KB.
+- Deployed live to Streamlit Community Cloud from the `streamlit-deploy` branch: https://chunk-lab.streamlit.app (verified rendering, semantic strategy loads torch + MiniLM on the free tier without OOM).
 
 ### Next (Stage 2, after GATE 1 hand-confirmation)
 1. `chunklab/store.py`: vector store interface + Chroma persistent-local impl (ADR-005).

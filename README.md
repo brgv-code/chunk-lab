@@ -2,6 +2,8 @@
 
 *See and evaluate RAG chunking strategies on your own data. Local, offline, no API keys.*
 
+**Live demo:** [chunk-lab.streamlit.app](https://chunk-lab.streamlit.app)
+
 Retrieval-augmented generation fails more often at the chunking step than at the retriever, and you rarely notice, because chunks are invisible. They live inside the vector store as numbers. Chunk Lab pulls them back into the open. Paste a document, run several chunking strategies, and look at the actual chunks side by side. Then measure which strategy retrieves the right passage for your questions.
 
 It runs entirely on your machine. The embeddings use a small local model, the vector store is on-disk, and the one strategy that needs a language model talks to a local Ollama install or disables itself. Nothing leaves the laptop and nothing needs a key.
