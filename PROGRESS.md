@@ -2,18 +2,19 @@
 
 Live current-state for Chunk Lab. Session archive lives in `knowledge-base/projects/chunk-lab/sessions/`.
 
-## Status: Stage 1 shipped (GATE 1 passed). Stage 2 not started.
+## Status: Stage 1 and Stage 2 shipped (GATE 1 and GATE 2 passed). Deployed live.
 
 ### Done
 - Shared foundation: `types`, `registry`, `ollama`, `embed`, `chunkers/_common`, and all seven chunkers.
 - Sample data: `data/sample_doc.md`, `data/sample_eval.json` (gold strings verified present).
 - Stage 1 visualizer: `viz.py` + `app.py` tab 1. Verified live in a browser; overlap responds; LLM disabled cleanly with Ollama off.
-- Tests: `uv run pytest` → 13 passing (`tests/test_registry.py`).
-- Blog Posts 1 and 2 drafted, validated, committed to the KB.
+- Stage 2 eval harness: `store.py` (VectorStore interface + Chroma impl), `eval.py` (chunk, embed, index, retrieve, score), and `app.py` tab 2 (ranked table, recall/MRR bar chart, per-query drill-down). Hit is a whitespace-normalized substring match; hierarchical retrieves on children and returns parent text.
+- Tests: `uv run pytest` → 26 passing (`tests/test_registry.py`, `tests/test_eval.py`).
+- Blog Posts 1, 2, 3 plus a server-vs-serverless post, committed to the KB.
+- Deployed live to Streamlit Community Cloud from the `streamlit-deploy` branch: https://chunk-lab.streamlit.app
 
-### Next (Stage 2, after GATE 1 hand-confirmation)
-1. `chunklab/store.py`: vector store interface + Chroma persistent-local impl (ADR-005).
-2. `chunklab/eval.py`: chunk → embed → index → retrieve top-k → score (recall@k, MRR, hit rate).
-3. `app.py` tab 2: eval file picker, `k` control, ranked table + bar chart + per-query drill-down.
-4. `tests/test_eval.py`: scoring logic (hit definition, recall@k, MRR).
-5. GATE 2 verify → blog Post 3 with real numbers → finalize `README.md` (with out-of-scope / future work).
+### Result on the sample data (chunk_size 256, k 5)
+Hierarchical wins (recall 1.0, MRR 0.94). Recursive, fixed-size, and document-based all reach recall 1.0 with lower MRR. Semantic trails at 0.5 because at this size it over-splits into 48 tiny fragments. No universal winner, which is the point.
+
+### Possible next work (out of scope for now)
+Reranking, PDF ingestion, hybrid or keyword search, multiple embedding models at once, cloud vector databases, auth.
