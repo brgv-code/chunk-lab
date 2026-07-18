@@ -84,6 +84,42 @@ def render_chunks_html(result: ChunkResult) -> str:
     return "".join(parts)
 
 
+def render_retrievals_html(qeval) -> str:
+    """Drill-down HTML: the top-k retrieved chunks for one strategy on one query,
+    with the matched gold span highlighted and a hit / miss marker per result."""
+    if not qeval.retrieved:
+        return '<div style="color:#64748b;padding:8px;">nothing retrieved</div>'
+    parts = []
+    for r in qeval.retrieved:
+        text = r.text
+        if r.span:
+            s, e = r.span
+            lo, hi = max(0, s - 160), min(len(text), e + 160)
+            body = (("…" if lo > 0 else "")
+                    + _esc(text[lo:s])
+                    + f'<span style="background:{_OVERLAP_BG};border-radius:3px;">'
+                    + _esc(text[s:e]) + "</span>"
+                    + _esc(text[e:hi])
+                    + ("…" if hi < len(text) else ""))
+        else:
+            body = _esc(text[:300]) + ("…" if len(text) > 300 else "")
+
+        hit = r.hit
+        marker = "✓ hit" if hit else "miss"
+        mcolor = "#15803d" if hit else "#9ca3af"
+        border = "#86efac" if hit else "#e5e7eb"
+        bg = "#f0fdf4" if hit else "#f8fafc"
+        header = (f'<div style="font:600 11px/1.4 ui-monospace,monospace;color:#475569;'
+                  f'margin-bottom:4px;">rank {r.rank} · dist {r.distance:.3f} · '
+                  f'<span style="color:{mcolor}">{marker}</span></div>')
+        block = (f'<div style="font:13px/1.55 ui-sans-serif,system-ui;color:{_TEXT};'
+                 f'white-space:pre-wrap;word-break:break-word;">{body}</div>')
+        parts.append(f'<div style="background:{bg};border:1px solid {border};'
+                     f'border-radius:8px;padding:10px 12px;margin-bottom:8px;">'
+                     f'{header}{block}</div>')
+    return "".join(parts)
+
+
 def metrics_row(result: ChunkResult) -> dict:
     """One row of size metrics for a strategy (used in the metrics panel)."""
     row = {"strategy": result.strategy}
