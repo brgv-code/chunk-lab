@@ -21,14 +21,11 @@ Stage 1 answers the first. Stage 2 answers the second.
 
 ## What works today?
 
-Stage 1, the visualizer, is built. You can:
+Both stages are built.
 
-- paste or upload a `.txt` or `.md` file, or load the bundled sample document
-- run up to seven chunking strategies at once
-- see every chunk as an alternating colored block, with the overlapping span highlighted and hierarchical children nested under their parents
-- read a per-strategy metrics table: chunk count, and the mean, median, min, max, and standard deviation of token counts
+**Stage 1, the visualizer.** Paste or upload a `.txt` or `.md` file (or load the bundled sample), run up to seven chunking strategies at once, and see every chunk as an alternating colored block with the overlapping span highlighted and hierarchical children nested under their parents. A per-strategy metrics table shows chunk count and the mean, median, min, max, and standard deviation of token counts.
 
-Stage 2, the retrieval eval harness (recall@k and MRR against a small query set), is the next milestone.
+**Stage 2, the retrieval eval harness.** Score each strategy on a query set with known answers. A retrieved chunk is a hit if it contains the query's gold answer string (case-insensitive). You get a ranked table of recall@k and MRR, a bar chart, and a per-query drill-down that shows the top-k retrieved chunks with the matched answer highlighted, so a low score is explainable rather than just a number.
 
 ## How do you run it?
 
